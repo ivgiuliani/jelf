@@ -8,8 +8,14 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'java'
 
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
+
 compileJava {
     options.encoding = 'UTF-8'
+    options.compilerArgs << '-XDignore.symbol.file'
+    options.fork = true
+    options.forkOptions.executable = 'javac'
 }
 
 repositories {
