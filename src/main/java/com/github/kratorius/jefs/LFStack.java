@@ -19,8 +19,12 @@ public class LFStack<E> extends NotSafe {
   private AtomicInteger itemCount = new AtomicInteger();
 
   static class Node<E> {
+    final E val;
     Node<E> next;
-    E val;
+
+    public Node(E val) {
+      this.val = val;
+    }
   }
 
   /**
@@ -94,8 +98,7 @@ public class LFStack<E> extends NotSafe {
    * @param item the item to be pushed onto this stack.
    */
   public void push(E item) {
-    Node<E> node = new Node<>();
-    node.val = item;
+    Node<E> node = new Node<>(item);
 
     for (;;) {
       node.next = head;
