@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @param <E> the type of elements held in this collection
  */
 public class LFStack<E> extends NotSafe {
-  private final Unsafe unsafe;
+  private static final Unsafe unsafe = getUnsafe();
   private volatile Node<E> head = null;
   private long headOffset;
   private AtomicInteger itemCount = new AtomicInteger();
@@ -31,7 +31,6 @@ public class LFStack<E> extends NotSafe {
    * Creates an empty stack.
    */
   public LFStack() {
-    unsafe = getUnsafe();
     try {
       headOffset = unsafe.objectFieldOffset(this.getClass().getDeclaredField("head"));
     } catch (NoSuchFieldException e) {
