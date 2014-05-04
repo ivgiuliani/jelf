@@ -4,16 +4,16 @@ import sun.misc.Unsafe;
 
 public class LFBitSet extends NotSafe {
   private static Unsafe unsafe = getUnsafe();
-  private static final int base = unsafe.arrayBaseOffset(int[].class);
+  private static final int base = unsafe.arrayBaseOffset(long[].class);
   private static final int shift;
 
   static {
-    int scale = Integer.numberOfLeadingZeros(unsafe.arrayIndexScale(int[].class));
+    int scale = Integer.numberOfLeadingZeros(unsafe.arrayIndexScale(long[].class));
     shift = 31 - scale;
   }
 
-   // The volatile is needed because clear() creates a whole new array
-  private volatile int[] bitset;
+  // The volatile is needed because clear() creates a whole new array
+  private volatile long[] bitset;
   private final int nbits;
 
   public LFBitSet(int nbits) {
@@ -22,7 +22,7 @@ public class LFBitSet extends NotSafe {
     }
 
     this.nbits = nbits;
-    this.bitset = new int[getBucket(nbits) + 1];
+    this.bitset = new long[getBucket(nbits) + 1];
   }
 
   private long byteOffset(int idx) {
@@ -31,11 +31,11 @@ public class LFBitSet extends NotSafe {
 
   private int getBucket(int bit) {
     //noinspection NumericOverflow
-    return ((bit - 1) >> 5) + 1;
+    return ((bit - 1) >> 6) + 1;
   }
 
   public void clear() {
-    this.bitset = new int[getBucket(nbits) + 1];
+    this.bitset = new long[getBucket(nbits) + 1];
   }
 
   public void clear(int bitIndex) {
@@ -44,11 +44,11 @@ public class LFBitSet extends NotSafe {
       throw new IndexOutOfBoundsException();
     }
 
-    int v1, v2;
+    long v1, v2;
     for (;;) {
       v1 = bitset[bucket];
-      v2 = v1 & ~(1 << bitIndex);
-      if (unsafe.compareAndSwapInt(bitset, byteOffset(bucket), v1, v2)) {
+      v2 = v1 & ~(1L << bitIndex);
+      if (unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2)) {
         return;
       }
     }
@@ -60,11 +60,11 @@ public class LFBitSet extends NotSafe {
       throw new IndexOutOfBoundsException();
     }
 
-    int v1, v2;
+    long v1, v2;
     for (;;) {
       v1 = bitset[bucket];
-      v2 = v1 ^ (1 << bitIndex);
-      if (unsafe.compareAndSwapInt(bitset, byteOffset(bucket), v1, v2)) {
+      v2 = v1 ^ (1L << bitIndex);
+      if (unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2)) {
         return;
       }
     }
@@ -76,11 +76,11 @@ public class LFBitSet extends NotSafe {
       throw new IndexOutOfBoundsException();
     }
 
-    int v1, v2;
+    long v1, v2;
     for (;;) {
       v1 = bitset[bucket];
-      v2 = v1 | (1 << bitIndex);
-      if (unsafe.compareAndSwapInt(bitset, byteOffset(bucket), v1, v2)) {
+      v2 = v1 | (1L << bitIndex);
+      if (unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2)) {
         return;
       }
     }
@@ -92,7 +92,7 @@ public class LFBitSet extends NotSafe {
       throw new IndexOutOfBoundsException();
     }
 
-    int v = unsafe.getIntVolatile(bitset, byteOffset(bucket));
-    return (v & (1 << bitIndex)) != 0;
+    long v = unsafe.getLongVolatile(bitset, byteOffset(bucket));
+    return (v & (1L << bitIndex)) != 0;
   }
 }
