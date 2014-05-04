@@ -37,7 +37,7 @@ public class LFStack<E> extends NotSafe {
     for (;;) {
       pop = head;
       if (unsafe.compareAndSwapObject(this, offset, pop, pop)) {
-        if (pop.val == null) {
+        if (pop == null) {
           throw new NoSuchElementException();
         }
         return pop.val;
@@ -49,12 +49,11 @@ public class LFStack<E> extends NotSafe {
     Node<E> pop, newHead;
 
     for (;;) {
-      pop = head;
+      if ((pop = head) == null) {
+        throw new NoSuchElementException();
+      }
       newHead = head.next;
       if (unsafe.compareAndSwapObject(this, offset, pop, newHead)) {
-        if (pop.val == null) {
-          throw new NoSuchElementException();
-        }
         return pop.val;
       }
     }
