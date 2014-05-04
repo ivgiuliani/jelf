@@ -3,15 +3,13 @@ package com.github.kratorius.jefs;
 import sun.misc.Unsafe;
 
 public class LFBitSet extends NotSafe {
-  private static final int INT_MSB = 5;
-
   private static Unsafe unsafe = getUnsafe();
   private static final int base = unsafe.arrayBaseOffset(int[].class);
   private static final int shift;
 
   static {
     int scale = Integer.numberOfLeadingZeros(unsafe.arrayIndexScale(int[].class));
-    shift = (1 << INT_MSB) - scale - 1;
+    shift = 31 - scale;
   }
 
    // The volatile is needed because clear() creates a whole new array
@@ -33,7 +31,7 @@ public class LFBitSet extends NotSafe {
 
   private int getBucket(int bit) {
     //noinspection NumericOverflow
-    return ((bit - 1) >> INT_MSB) + 1;
+    return ((bit - 1) >> 5) + 1;
   }
 
   public void clear() {
