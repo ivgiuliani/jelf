@@ -18,6 +18,14 @@ If using eclipse:
     ./gradlew eclipse
 
 
+Running tests
+-------------
+Give at least 1Gb of RAM (`-Xms1G`) or the garbage collector will slow you down
+considerably. Generally, 3Gb should be enough to run all the tests without
+incurring in garbage collection penalties (`-Xms3G -Xmx3G` seems to work just fine
+on my Intel i5).
+
+
 License
 -------
 This software is distributed under the BSD license. See the LICENSE file
