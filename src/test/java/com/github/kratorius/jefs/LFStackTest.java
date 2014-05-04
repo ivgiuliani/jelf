@@ -186,12 +186,12 @@ public class LFStackTest {
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
     LFStack<Integer> stack = new LFStack<>();
 
-    for (int i = 0; i < logicalCores * 10000000; i++) {
+    for (int i = 0; i < logicalCores * 1000000; i++) {
       stack.push(i);
     }
 
     for (int i = 0; i < logicalCores; i++) {
-      PopperThread<Integer> popper = new PopperThread<>(stack, 10000000);
+      PopperThread<Integer> popper = new PopperThread<>(stack, 1000000);
       poppers.add(popper);
       threads.add(new Thread(popper));
     }
@@ -218,12 +218,12 @@ public class LFStackTest {
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
     LFStack<Integer> stack = new LFStack<>();
 
-    for (int i = 0; i < logicalCores * 10000000; i++) {
+    for (int i = 0; i < logicalCores * 1000000; i++) {
       stack.push(i);
     }
 
     for (int i = 0; i < logicalCores; i++) {
-      PopperThread<Integer> popper = new PopperThread<>(stack, 10000000);
+      PopperThread<Integer> popper = new PopperThread<>(stack, 1000000);
       poppers.add(popper);
       threads.add(new Thread(popper));
     }
