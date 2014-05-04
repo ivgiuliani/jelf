@@ -1,7 +1,7 @@
 def javaVersion = JavaVersion.VERSION_1_7
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
+    gradleVersion = '1.10'
 }
 
 apply plugin: 'idea'
@@ -19,4 +19,3 @@ repositories {
 
 dependencies {
 }
-
