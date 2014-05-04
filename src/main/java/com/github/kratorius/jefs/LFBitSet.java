@@ -40,7 +40,7 @@ public class LFBitSet extends NotSafe {
 
   public void clear(int bitIndex) {
     int bucket = getBucket(bitIndex);
-    if (bucket >= bitset.length) {
+    if (bucket < 0 || bucket >= bitset.length) {
       throw new IndexOutOfBoundsException();
     }
 
@@ -56,7 +56,7 @@ public class LFBitSet extends NotSafe {
 
   public void flip(int bitIndex) {
     int bucket = getBucket(bitIndex);
-    if (bucket >= bitset.length) {
+    if (bucket < 0 || bucket >= bitset.length) {
       throw new IndexOutOfBoundsException();
     }
 
@@ -72,7 +72,7 @@ public class LFBitSet extends NotSafe {
 
   public void set(int bitIndex) {
     int bucket = getBucket(bitIndex);
-    if (bucket >= bitset.length) {
+    if (bucket < 0 || bucket >= bitset.length) {
       throw new IndexOutOfBoundsException();
     }
 
@@ -96,7 +96,7 @@ public class LFBitSet extends NotSafe {
 
   public boolean get(int bitIndex) {
     int bucket = getBucket(bitIndex);
-    if (bucket >= bitset.length) {
+    if (bucket < 0 || bucket >= bitset.length) {
       throw new IndexOutOfBoundsException();
     }
 
