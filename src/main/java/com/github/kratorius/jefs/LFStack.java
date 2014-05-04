@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 public class LFStack<E> extends NotSafe {
   private final Unsafe unsafe;
   private Node<E> head = null;
-  private long offset;
+  private long headOffset;
 
   static class Node<E> {
     Node<E> next;
@@ -17,7 +17,7 @@ public class LFStack<E> extends NotSafe {
   public LFStack() {
     unsafe = getUnsafe();
     try {
-      offset = unsafe.objectFieldOffset(this.getClass().getDeclaredField("head"));
+      headOffset = unsafe.objectFieldOffset(this.getClass().getDeclaredField("head"));
     } catch (NoSuchFieldException e) {
       throw new RuntimeException();
     }
@@ -36,7 +36,7 @@ public class LFStack<E> extends NotSafe {
 
     for (;;) {
       pop = head;
-      if (unsafe.compareAndSwapObject(this, offset, pop, pop)) {
+      if (unsafe.compareAndSwapObject(this, headOffset, pop, pop)) {
         if (pop == null) {
           throw new NoSuchElementException();
         }
@@ -53,7 +53,7 @@ public class LFStack<E> extends NotSafe {
         throw new NoSuchElementException();
       }
       newHead = head.next;
-      if (unsafe.compareAndSwapObject(this, offset, pop, newHead)) {
+      if (unsafe.compareAndSwapObject(this, headOffset, pop, newHead)) {
         return pop.val;
       }
     }
@@ -65,7 +65,7 @@ public class LFStack<E> extends NotSafe {
 
     for (;;) {
       node.next = head;
-      if (unsafe.compareAndSwapObject(this, offset, node.next, node)) {
+      if (unsafe.compareAndSwapObject(this, headOffset, node.next, node)) {
         break;
       }
     }
