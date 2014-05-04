@@ -3,6 +3,7 @@ package com.github.kratorius.jefs;
 import sun.misc.Unsafe;
 
 import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LFStack<E> extends NotSafe {
   private final Unsafe unsafe;
@@ -54,6 +55,7 @@ public class LFStack<E> extends NotSafe {
       }
       newHead = head.next;
       if (unsafe.compareAndSwapObject(this, headOffset, pop, newHead)) {
+        itemCount.decrementAndGet();
         return pop.val;
       }
     }
@@ -66,8 +68,13 @@ public class LFStack<E> extends NotSafe {
     for (;;) {
       node.next = head;
       if (unsafe.compareAndSwapObject(this, headOffset, node.next, node)) {
+        itemCount.incrementAndGet();
         break;
       }
     }
+  }
+
+  public int size() {
+    return itemCount.get();
   }
 }
