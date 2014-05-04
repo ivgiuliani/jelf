@@ -74,6 +74,7 @@ public class LFStackTest {
     t2.join();
 
     assertFalse(stack.empty());
+    assertEquals(20000000, stack.size());
     for (int i = 0; i < 20000000; i++) {
       stack.pop();
     }
@@ -97,6 +98,7 @@ public class LFStackTest {
     }
 
     assertFalse(stack.empty());
+    assertEquals(logicalCores * 10000000, stack.size());
     for (int i = 0; i < logicalCores * 10000000; i++) {
       stack.pop();
     }
@@ -120,6 +122,7 @@ public class LFStackTest {
     }
 
     assertFalse(stack.empty());
+    assertEquals(logicalCores * 10000000, stack.size());
     for (int i = 0; i < logicalCores * 10000000; i++) {
       stack.pop();
     }
