@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class LFStack<E> extends NotSafe {
   private final Unsafe unsafe;
-  private Node<E> head = null;
+  private volatile Node<E> head = null;
   private long headOffset;
   private AtomicInteger itemCount = new AtomicInteger();
 
