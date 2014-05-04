@@ -86,6 +86,14 @@ public class LFBitSet extends NotSafe {
     }
   }
 
+  public void set(int bitIndex, boolean value) {
+    if (value) {
+      set(bitIndex);
+    } else {
+      clear(bitIndex);
+    }
+  }
+
   public boolean get(int bitIndex) {
     int bucket = getBucket(bitIndex);
     if (bucket >= bitset.length) {
