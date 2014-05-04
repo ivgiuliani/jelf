@@ -108,6 +108,10 @@ public class LFStack<E> extends NotSafe {
     }
   }
 
+  /**
+   * Counts the number of elements currently in the stack.
+   * @return the number of elements in the stack.
+   */
   public int size() {
     return itemCount.get();
   }
