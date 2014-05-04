@@ -14,11 +14,7 @@ public class LFBitSet extends NotSafe {
     shift = (1 << INT_MSB) - scale - 1;
   }
 
-  /*
-   * An array of longs would probably be more efficient, however writes to
-   * longs are not atomic, whereas writes to ints are.
-   * (the volatile is needed because clear() creates a whole new array)
-   */
+   // The volatile is needed because clear() creates a whole new array
   private volatile int[] bitset;
   private final int nbits;
 
