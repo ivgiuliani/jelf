@@ -5,16 +5,27 @@ import sun.misc.Unsafe;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Represents a last-in-first-out (LIFO) unbounded stack of objects.
+ * The usual {@code push} and {@code pop} operations are provided, as well as
+ * a {@code peek} method to peek at the top of the stack.
+ *
+ * @param <E> the type of elements held in this collection
+ */
 public class LFStack<E> extends NotSafe {
   private final Unsafe unsafe;
   private Node<E> head = null;
   private long headOffset;
+  private AtomicInteger itemCount = new AtomicInteger();
 
   static class Node<E> {
     Node<E> next;
     E val;
   }
 
+  /**
+   * Creates an empty stack.
+   */
   public LFStack() {
     unsafe = getUnsafe();
     try {
@@ -24,15 +35,26 @@ public class LFStack<E> extends NotSafe {
     }
   }
 
+  /**
+   * Tests if the stack is empty.
+   * @return {@code true} if and only if this stack contains no items;
+   *         {@code false} otherwise
+   */
   public boolean empty() {
     /* '==' is atomic for reference variables as per documentation:
      * "Reads and writes are atomic for reference variables and for most
      * primitive variables (all types except long and double).
+     * (http://docs.oracle.com/javase/tutorial/essential/concurrency/atomic.html)
      */
     return head == null;
   }
 
-  public E peek() {
+  /**
+   * Looks at the object at the top of the stack without removing it.
+   * @return the object at the top of this stack
+   * @throws java.util.NoSuchElementException if the stack is empty
+   */
+  public E peek() throws NoSuchElementException {
     Node<E> pop;
 
     for (;;) {
@@ -46,7 +68,13 @@ public class LFStack<E> extends NotSafe {
     }
   }
 
-  public E pop() {
+  /**
+   * Removes the object at the top of the stack and returns that object as the
+   * value of this function.
+   * @return the object at the top of the stack
+   * @throws NoSuchElementException if the stack is empty
+   */
+  public E pop() throws NoSuchElementException {
     Node<E> pop, newHead;
 
     for (;;) {
@@ -61,6 +89,10 @@ public class LFStack<E> extends NotSafe {
     }
   }
 
+  /**
+   * Pushes an item onto the top of the stack.
+   * @param item the item to be pushed onto this stack.
+   */
   public void push(E item) {
     Node<E> node = new Node<>();
     node.val = item;
