@@ -60,15 +60,14 @@ public class LFStack<E> extends NotSafe {
   public E peek() throws NoSuchElementException {
     Node<E> pop;
 
-    for (;;) {
+    do {
       pop = head;
-      if (unsafe.compareAndSwapObject(this, headOffset, pop, pop)) {
-        if (pop == null) {
-          throw new NoSuchElementException();
-        }
-        return pop.val;
-      }
+    } while (!unsafe.compareAndSwapObject(this, headOffset, pop, pop));
+
+    if (pop == null) {
+      throw new NoSuchElementException();
     }
+    return pop.val;
   }
 
   /**
@@ -80,16 +79,15 @@ public class LFStack<E> extends NotSafe {
   public E pop() throws NoSuchElementException {
     Node<E> pop, newHead;
 
-    for (;;) {
+    do {
       if ((pop = head) == null) {
         throw new NoSuchElementException();
       }
       newHead = head.next;
-      if (unsafe.compareAndSwapObject(this, headOffset, pop, newHead)) {
-        itemCount.decrementAndGet();
-        return pop.val;
-      }
-    }
+    } while (!unsafe.compareAndSwapObject(this, headOffset, pop, newHead));
+
+    itemCount.decrementAndGet();
+    return pop.val;
   }
 
   /**
@@ -99,13 +97,11 @@ public class LFStack<E> extends NotSafe {
   public void push(E item) {
     Node<E> node = new Node<>(item);
 
-    for (;;) {
+    do {
       node.next = head;
-      if (unsafe.compareAndSwapObject(this, headOffset, node.next, node)) {
-        itemCount.incrementAndGet();
-        break;
-      }
-    }
+    } while (!unsafe.compareAndSwapObject(this, headOffset, node.next, node));
+
+    itemCount.incrementAndGet();
   }
 
   /**
