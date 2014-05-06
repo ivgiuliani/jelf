@@ -4,8 +4,9 @@ import sun.misc.Unsafe;
 
 /**
  * Represents a vector of a fixed number of bits.
- * This class differs from the normal {@link java.util.BitSet} class in that we only allow
- * a fixed number of bits.
+ * This class differs from the normal {@link java.util.BitSet} class in that we
+ * only allow a fixed number of bits and offer only those methods for which
+ * we can support thread-safe operations.
  */
 public class LFBitSet extends NotSafe {
   private static Unsafe unsafe = getUnsafe();
