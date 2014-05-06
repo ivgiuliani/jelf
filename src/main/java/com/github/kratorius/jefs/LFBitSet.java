@@ -62,13 +62,10 @@ public class LFBitSet extends NotSafe {
     }
 
     long v1, v2;
-    for (;;) {
+    do {
       v1 = bitset[bucket];
       v2 = v1 & ~(1L << bitIndex);
-      if (unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2)) {
-        return;
-      }
-    }
+    } while (!unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2));
   }
 
   /**
@@ -82,13 +79,10 @@ public class LFBitSet extends NotSafe {
     }
 
     long v1, v2;
-    for (;;) {
+    do {
       v1 = bitset[bucket];
       v2 = v1 ^ (1L << bitIndex);
-      if (unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2)) {
-        return;
-      }
-    }
+    } while (!unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2));
   }
 
   /**
@@ -102,13 +96,10 @@ public class LFBitSet extends NotSafe {
     }
 
     long v1, v2;
-    for (;;) {
+    do {
       v1 = bitset[bucket];
       v2 = v1 | (1L << bitIndex);
-      if (unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2)) {
-        return;
-      }
-    }
+    } while (!unsafe.compareAndSwapLong(bitset, byteOffset(bucket), v1, v2));
   }
 
   /**
