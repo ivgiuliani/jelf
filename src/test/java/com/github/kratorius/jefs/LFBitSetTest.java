@@ -144,7 +144,7 @@ public class LFBitSetTest {
 
   @Test
   public void testFlip_twoThreads_noContention() throws InterruptedException {
-    final int arraySize = ONE_MB * 512;
+    final int arraySize = ONE_MB * 256;
     final LFBitSet bs = new LFBitSet(arraySize);
 
     // first half of the array must be set to 1, the other to 0
@@ -176,7 +176,7 @@ public class LFBitSetTest {
 
   @Test
   public void testFlip_twoThreads_contention() throws InterruptedException {
-    final int arraySize = ONE_MB * 512;
+    final int arraySize = ONE_MB * 256;
     final LFBitSet bs = new LFBitSet(arraySize);
 
     // every other item will be set to 1
@@ -260,7 +260,7 @@ public class LFBitSetTest {
 
   @Test
   public void testSet_asManyThreadsAsCores() throws InterruptedException {
-    final int arraySize = ONE_MB * 64; // or the shuffle list won't fit in memory (of my machine)
+    final int arraySize = ONE_MB * 32; // or the shuffle list won't fit in memory (of my machine)
     final LFBitSet bs = new LFBitSet(arraySize);
     int logicalCores = Runtime.getRuntime().availableProcessors();
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
@@ -301,7 +301,7 @@ public class LFBitSetTest {
 
   @Test
   public void testSet_moreThreadsThanCores() throws InterruptedException {
-    final int arraySize = ONE_MB * 64; // or the shuffle list won't fit in memory (of my machine)
+    final int arraySize = ONE_MB * 32; // or the shuffle list won't fit in memory (of my machine)
     final LFBitSet bs = new LFBitSet(arraySize);
     int logicalCores = Runtime.getRuntime().availableProcessors() + 1;
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
@@ -342,7 +342,7 @@ public class LFBitSetTest {
 
   @Test
   public void testClear_asManyThreadsAsCores() throws InterruptedException {
-    final int arraySize = ONE_MB * 64; // or the shuffle list won't fit in memory (of my machine)
+    final int arraySize = ONE_MB * 32; // or the shuffle list won't fit in memory (of my machine)
     final LFBitSet bs = new LFBitSet(arraySize);
     int logicalCores = Runtime.getRuntime().availableProcessors();
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
@@ -384,7 +384,7 @@ public class LFBitSetTest {
 
   @Test
   public void testClear_moreThreadsThanCores() throws InterruptedException {
-    final int arraySize = ONE_MB * 64; // or the shuffle list won't fit in memory (of my machine)
+    final int arraySize = ONE_MB * 32; // or the shuffle list won't fit in memory (of my machine)
     final LFBitSet bs = new LFBitSet(arraySize);
     int logicalCores = Runtime.getRuntime().availableProcessors() + 1;
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
@@ -426,7 +426,7 @@ public class LFBitSetTest {
 
   @Test
   public void testFlip_asManyThreadsAsCores() throws InterruptedException {
-    final int arraySize = ONE_MB * 64; // or the shuffle list won't fit in memory (of my machine)
+    final int arraySize = ONE_MB * 32; // or the shuffle list won't fit in memory (of my machine)
     final LFBitSet bs = new LFBitSet(arraySize);
     int logicalCores = Runtime.getRuntime().availableProcessors();
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
@@ -467,7 +467,7 @@ public class LFBitSetTest {
 
   @Test
   public void testFlip_moreThreadsThanCores() throws InterruptedException {
-    final int arraySize = ONE_MB * 64; // or the shuffle list won't fit in memory (of my machine)
+    final int arraySize = ONE_MB * 32; // or the shuffle list won't fit in memory (of my machine)
     final LFBitSet bs = new LFBitSet(arraySize);
     int logicalCores = Runtime.getRuntime().availableProcessors() + 1;
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
