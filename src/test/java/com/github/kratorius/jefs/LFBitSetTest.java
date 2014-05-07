@@ -505,4 +505,48 @@ public class LFBitSetTest {
       assertTrue(bs.get(i));
     }
   }
+
+  static class MultiFlipThread implements Runnable {
+    private final LFBitSet bitSet;
+    private final int bsSize;
+    private final int times;
+
+    public MultiFlipThread(LFBitSet bitSet, int bsSize, int times) {
+      this.bitSet = bitSet;
+      this.bsSize = bsSize;
+      this.times = times;
+    }
+
+    @Override
+    public void run() {
+      for (int count = 0; count < times; count++) {
+        for (int i = 0; i < bsSize; i++) {
+          bitSet.flip(i);
+        }
+      }
+    }
+  }
+
+  @Test
+  public void testFlip_multipleTimes_heavyContention() throws InterruptedException {
+    final LFBitSet bs = new LFBitSet(64);
+    int logicalCores = Runtime.getRuntime().availableProcessors();
+    ArrayList<Thread> threads = new ArrayList<>(logicalCores);
+
+    for (int i = 0; i < logicalCores; i++) {
+      threads.add(new Thread(new MultiFlipThread(bs, 64, 100)));
+    }
+
+    for (Thread t : threads) {
+      t.start();
+    }
+
+    for (Thread t : threads) {
+      t.join();
+    }
+
+    for (int i = 0; i < 64; i++) {
+      assertFalse(bs.get(i));
+    }
+  }
 }
