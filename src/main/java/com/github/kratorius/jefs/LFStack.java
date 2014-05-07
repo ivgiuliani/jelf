@@ -19,6 +19,8 @@ public class LFStack<E> extends NotSafe {
   private AtomicInteger itemCount = new AtomicInteger();
 
   static class Node<E> {
+    @SuppressWarnings("UnusedDeclaration")
+    long p0, p1, p2, p3, p4;
     final E val;
     volatile Node<E> next;
 
