@@ -20,7 +20,7 @@ public class LFStack<E> extends NotSafe {
 
   static class Node<E> {
     final E val;
-    Node<E> next;
+    volatile Node<E> next;
 
     public Node(E val) {
       this.val = val;
