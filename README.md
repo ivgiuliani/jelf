@@ -30,3 +30,5 @@ License
 -------
 This software is distributed under the BSD license. See the LICENSE file
 for more informations.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-184881-14/jelf)](https://github.com/igrigorik/ga-beacon)
