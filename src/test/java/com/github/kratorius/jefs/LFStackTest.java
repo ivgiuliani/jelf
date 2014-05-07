@@ -88,8 +88,8 @@ public class LFStackTest {
   public void testPush_twoThreads() throws InterruptedException {
     LFStack<Integer> stack = new LFStack<>();
 
-    Thread t1 = new Thread(new FixedValuePusherThread<>(stack, 10000000, 42));
-    Thread t2 = new Thread(new FixedValuePusherThread<>(stack, 10000000, 42));
+    Thread t1 = new Thread(new FixedValuePusherThread<>(stack, 1000000, 42));
+    Thread t2 = new Thread(new FixedValuePusherThread<>(stack, 1000000, 42));
 
     t1.start();
     t2.start();
@@ -97,8 +97,8 @@ public class LFStackTest {
     t2.join();
 
     assertFalse(stack.empty());
-    assertEquals(20000000, stack.size());
-    for (int i = 0; i < 20000000; i++) {
+    assertEquals(2000000, stack.size());
+    for (int i = 0; i < 2000000; i++) {
       stack.pop();
     }
     assertTrue(stack.empty());
@@ -111,7 +111,7 @@ public class LFStackTest {
     LFStack<Integer> stack = new LFStack<>();
 
     for (int i = 0; i < logicalCores; i++) {
-      threads.add(new Thread(new FixedValuePusherThread<>(stack, 10000000, 42)));
+      threads.add(new Thread(new FixedValuePusherThread<>(stack, 1000000, 42)));
     }
     for (Thread t : threads) {
       t.start();
@@ -121,8 +121,8 @@ public class LFStackTest {
     }
 
     assertFalse(stack.empty());
-    assertEquals(logicalCores * 10000000, stack.size());
-    for (int i = 0; i < logicalCores * 10000000; i++) {
+    assertEquals(logicalCores * 1000000, stack.size());
+    for (int i = 0; i < logicalCores * 1000000; i++) {
       stack.pop();
     }
     assertTrue(stack.empty());
@@ -135,7 +135,7 @@ public class LFStackTest {
     LFStack<Integer> stack = new LFStack<>();
 
     for (int i = 0; i < logicalCores; i++) {
-      threads.add(new Thread(new FixedValuePusherThread<>(stack, 10000000, 42)));
+      threads.add(new Thread(new FixedValuePusherThread<>(stack, 1000000, 42)));
     }
     for (Thread t : threads) {
       t.start();
@@ -145,8 +145,8 @@ public class LFStackTest {
     }
 
     assertFalse(stack.empty());
-    assertEquals(logicalCores * 10000000, stack.size());
-    for (int i = 0; i < logicalCores * 10000000; i++) {
+    assertEquals(logicalCores * 1000000, stack.size());
+    for (int i = 0; i < logicalCores * 1000000; i++) {
       stack.pop();
     }
     assertTrue(stack.empty());
@@ -155,12 +155,12 @@ public class LFStackTest {
   @Test
   public void testPop_twoThreads() throws Exception {
     LFStack<Integer> stack = new LFStack<>();
-    for (int i = 0; i < 20000000; i++) {
+    for (int i = 0; i < 2000000; i++) {
       stack.push(i);
     }
 
-    PopperThread r1 = new PopperThread<>(stack, 10000000);
-    PopperThread r2 = new PopperThread<>(stack, 10000000);
+    PopperThread r1 = new PopperThread<>(stack, 1000000);
+    PopperThread r2 = new PopperThread<>(stack, 1000000);
     Thread t1 = new Thread(r1);
     Thread t2 = new Thread(r2);
 
@@ -186,12 +186,12 @@ public class LFStackTest {
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
     LFStack<Integer> stack = new LFStack<>();
 
-    for (int i = 0; i < logicalCores * 5000000; i++) {
+    for (int i = 0; i < logicalCores * 1000000; i++) {
       stack.push(i);
     }
 
     for (int i = 0; i < logicalCores; i++) {
-      PopperThread<Integer> popper = new PopperThread<>(stack, 5000000);
+      PopperThread<Integer> popper = new PopperThread<>(stack, 1000000);
       poppers.add(popper);
       threads.add(new Thread(popper));
     }
@@ -218,12 +218,12 @@ public class LFStackTest {
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
     LFStack<Integer> stack = new LFStack<>();
 
-    for (int i = 0; i < logicalCores * 5000000; i++) {
+    for (int i = 0; i < logicalCores * 1000000; i++) {
       stack.push(i);
     }
 
     for (int i = 0; i < logicalCores; i++) {
-      PopperThread<Integer> popper = new PopperThread<>(stack, 5000000);
+      PopperThread<Integer> popper = new PopperThread<>(stack, 1000000);
       poppers.add(popper);
       threads.add(new Thread(popper));
     }
