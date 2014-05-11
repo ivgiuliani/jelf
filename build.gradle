@@ -9,6 +9,7 @@ task wrapper(type: Wrapper) {
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = javaVersion
 targetCompatibility = javaVersion
@@ -25,7 +26,34 @@ repositories {
     mavenLocal()
 }
 
+sourceSets {
+    perf
+}
+
 dependencies {
     compile 'com.google.code.findbugs:jsr305:2.0.3'
     testCompile 'junit:junit:4.11'
+
+    perfCompile project
+    perfCompile 'org.openjdk.jmh:jmh-core:0.7.1'
+    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.7.1'
+}
+
+idea {
+    module {
+        scopes.PROVIDED.plus  += configurations.perfCompile
+        scopes.PROVIDED.minus += configurations.compile
+    }
+}
+
+eclipse {
+    classpath {
+        plusConfigurations += configurations.perfCompile
+    }
+}
+
+task perf(type: JavaExec, dependsOn: [classes, perfClasses]) {
+    description 'Execute the benchmark timing of this project'
+    main 'org.openjdk.jmh.Main'
+    classpath = sourceSets.perf.runtimeClasspath
 }
