@@ -26,6 +26,12 @@ incurring in garbage collection penalties (`-Xms3G -Xmx3G` seems to work just fi
 on my Intel i5).
 
 
+Benchmarking
+------------
+
+    ./gradlew perf
+
+
 License
 -------
 This software is distributed under the BSD license. See the LICENSE file
