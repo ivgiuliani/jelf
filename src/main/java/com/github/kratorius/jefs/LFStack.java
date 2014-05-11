@@ -43,6 +43,11 @@ public class LFStack<E> extends NotSafe {
     }
   }
 
+  public void clear() {
+    itemCount.lazySet(0);
+    head = null;
+  }
+
   /**
    * Tests if the stack is empty.
    * @return {@code true} if and only if this stack contains no items;
@@ -82,13 +87,26 @@ public class LFStack<E> extends NotSafe {
    * @throws NoSuchElementException if the stack is empty
    */
   public E pop() throws NoSuchElementException {
+    final E pop = remove();
+    if (pop == null) {
+      throw new NoSuchElementException();
+    }
+    return pop;
+  }
+
+  /**
+   * Removes the object at the top of the stack and returns that object as the
+   * value of this function.
+   * @return the object at the top of the stack or null if the stack is empty
+   */
+  public E remove() {
     Node<E> pop, newHead;
 
     do {
       if ((pop = head) == null) {
-        throw new NoSuchElementException();
+        return null;
       }
-      newHead = head.next;
+      newHead = pop.next;
     } while (!unsafe.compareAndSwapObject(this, headOffset, pop, newHead));
 
     itemCount.decrementAndGet();
@@ -110,6 +128,16 @@ public class LFStack<E> extends NotSafe {
     } while (!unsafe.compareAndSwapObject(this, headOffset, node.next, node));
 
     itemCount.incrementAndGet();
+  }
+
+  /**
+   * Pushes an item onto the top of the stack.
+   * @param item the item to be pushed onto this stack.
+   * @return {@code true}
+   */
+  public boolean add(E item) {
+    push(item);
+    return true;
   }
 
   /**
