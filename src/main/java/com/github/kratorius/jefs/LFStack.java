@@ -100,6 +100,9 @@ public class LFStack<E> extends NotSafe {
    * @param item the item to be pushed onto this stack.
    */
   public void push(E item) {
+    if (item == null) {
+      throw new IllegalArgumentException();
+    }
     Node<E> node = new Node<>(item);
 
     do {
