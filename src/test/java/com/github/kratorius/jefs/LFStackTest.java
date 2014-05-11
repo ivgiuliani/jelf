@@ -85,26 +85,6 @@ public class LFStackTest {
   }
 
   @Test
-  public void testPush_twoThreads() throws InterruptedException {
-    LFStack<Integer> stack = new LFStack<>();
-
-    Thread t1 = new Thread(new FixedValuePusherThread<>(stack, 1000000, 42));
-    Thread t2 = new Thread(new FixedValuePusherThread<>(stack, 1000000, 42));
-
-    t1.start();
-    t2.start();
-    t1.join();
-    t2.join();
-
-    assertFalse(stack.empty());
-    assertEquals(2000000, stack.size());
-    for (int i = 0; i < 2000000; i++) {
-      stack.pop();
-    }
-    assertTrue(stack.empty());
-  }
-
-  @Test
   public void testPush_asManyThreadsAsCores() throws InterruptedException {
     int logicalCores = Runtime.getRuntime().availableProcessors();
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
@@ -129,91 +109,8 @@ public class LFStackTest {
   }
 
   @Test
-  public void testPush_moreThreadsThanCores() throws InterruptedException {
-    int logicalCores = Runtime.getRuntime().availableProcessors() + 1;
-    ArrayList<Thread> threads = new ArrayList<>(logicalCores);
-    LFStack<Integer> stack = new LFStack<>();
-
-    for (int i = 0; i < logicalCores; i++) {
-      threads.add(new Thread(new FixedValuePusherThread<>(stack, 1000000, 42)));
-    }
-    for (Thread t : threads) {
-      t.start();
-    }
-    for (Thread t : threads) {
-      t.join();
-    }
-
-    assertFalse(stack.empty());
-    assertEquals(logicalCores * 1000000, stack.size());
-    for (int i = 0; i < logicalCores * 1000000; i++) {
-      stack.pop();
-    }
-    assertTrue(stack.empty());
-  }
-
-  @Test
-  public void testPop_twoThreads() throws Exception {
-    LFStack<Integer> stack = new LFStack<>();
-    for (int i = 0; i < 2000000; i++) {
-      stack.push(i);
-    }
-
-    PopperThread r1 = new PopperThread<>(stack, 1000000);
-    PopperThread r2 = new PopperThread<>(stack, 1000000);
-    Thread t1 = new Thread(r1);
-    Thread t2 = new Thread(r2);
-
-    t1.start();
-    t2.start();
-    t1.join();
-    t2.join();
-
-    if (r1.exception != null) {
-      throw r1.exception;
-    }
-    if (r2.exception != null) {
-      throw r2.exception;
-    }
-
-    assertTrue(stack.empty());
-  }
-
-  @Test
   public void testPop_asManyThreadsAsCores() throws Exception {
     int logicalCores = Runtime.getRuntime().availableProcessors();
-    ArrayList<PopperThread<Integer>> poppers = new ArrayList<>(logicalCores);
-    ArrayList<Thread> threads = new ArrayList<>(logicalCores);
-    LFStack<Integer> stack = new LFStack<>();
-
-    for (int i = 0; i < logicalCores * 1000000; i++) {
-      stack.push(i);
-    }
-
-    for (int i = 0; i < logicalCores; i++) {
-      PopperThread<Integer> popper = new PopperThread<>(stack, 1000000);
-      poppers.add(popper);
-      threads.add(new Thread(popper));
-    }
-    for (Thread t : threads) {
-      t.start();
-    }
-    for (Thread t : threads) {
-      t.join();
-    }
-
-    for (PopperThread p : poppers) {
-      if (p.exception != null) {
-        throw p.exception;
-      }
-    }
-
-    assertTrue(stack.empty());
-  }
-
-  @Test
-  public void testPop_moreThreadsThanCores() throws Exception {
-    int logicalCores = Runtime.getRuntime().availableProcessors() + 1;
     ArrayList<PopperThread<Integer>> poppers = new ArrayList<>(logicalCores);
     ArrayList<Thread> threads = new ArrayList<>(logicalCores);
     LFStack<Integer> stack = new LFStack<>();
