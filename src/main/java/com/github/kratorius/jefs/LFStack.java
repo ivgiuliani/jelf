@@ -68,15 +68,11 @@ public class LFStack<E> extends NotSafe {
    * @throws java.util.NoSuchElementException if the stack is empty
    */
   public E peek() throws NoSuchElementException {
-    Node<E> pop;
-
-    do {
-      pop = head;
-    } while (!unsafe.compareAndSwapObject(this, headOffset, pop, pop));
-
-    if (pop == null) {
+    final Node<E> pop;
+    if ((pop = head) == null) {
       throw new NoSuchElementException();
     }
+
     return pop.val;
   }
 
@@ -121,8 +117,8 @@ public class LFStack<E> extends NotSafe {
     if (item == null) {
       throw new IllegalArgumentException();
     }
-    Node<E> node = new Node<>(item);
 
+    final Node<E> node = new Node<>(item);
     do {
       node.next = head;
     } while (!unsafe.compareAndSwapObject(this, headOffset, node.next, node));
