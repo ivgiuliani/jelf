@@ -22,7 +22,7 @@ public class LFStack<E> extends NotSafe {
     // include padding so that the node class uses 64 bytes, enough to fill
     // a whole cache line and avoid false sharing
     @SuppressWarnings("UnusedDeclaration")
-    long p0, p1, p2, p3, p4;
+    long p0, p1, p2, p3, p4, p5 = 6;
 
     final E val;
     volatile Node<E> next;
