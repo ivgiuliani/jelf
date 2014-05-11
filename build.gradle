@@ -1,3 +1,5 @@
+group = "com.github.kratorius.jelf"
+
 def javaVersion = JavaVersion.VERSION_1_7
 
 task wrapper(type: Wrapper) {
