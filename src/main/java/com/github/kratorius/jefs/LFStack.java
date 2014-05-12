@@ -14,9 +14,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class LFStack<E> extends NotSafe {
   private static final Unsafe unsafe = getUnsafe();
+  private AtomicInteger itemCount = new AtomicInteger();
+
+  @SuppressWarnings("UnusedDeclaration")
+  private volatile long p0, p1, p2, p3, p4, p5 = 6;
   private volatile Node<E> head = null;
   private long headOffset;
-  private AtomicInteger itemCount = new AtomicInteger();
 
   static class Node<E> {
     // include padding so that the node class uses 64 bytes, enough to fill
