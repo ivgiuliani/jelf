@@ -12,6 +12,7 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.TearDown;
+import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -22,27 +23,29 @@ import java.util.concurrent.TimeUnit;
 
 @BenchmarkMode(Mode.Throughput)
 @OutputTimeUnit(TimeUnit.SECONDS)
-@Warmup(iterations = 1, time = 3, timeUnit = TimeUnit.SECONDS)
+@Warmup(iterations = 2, time = 3, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(5)
+@Threads(4)
 @State(Scope.Group)
 public class LFStackBenchmark {
-  private static final Integer VALUE = 123;
+  private int constValue = 123;
   private LFStack<Integer> stack = new LFStack<>();
 
   @GenerateMicroBenchmark
-  @GroupThreads(2)
   @Group("stack")
   public void add() {
-    stack.push(VALUE);
+    stack.push(constValue);
   }
 
   @GenerateMicroBenchmark
   @Group("stack")
-  public void remove() {
-    if (stack.remove() == null) {
+  public Integer remove() {
+    Integer v = stack.remove();
+    if (v == null) {
       Thread.yield();
     }
+    return v;
   }
 
   @TearDown(Level.Iteration)
