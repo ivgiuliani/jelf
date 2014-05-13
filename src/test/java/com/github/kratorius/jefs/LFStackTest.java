@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class LFStackTest {
@@ -82,6 +83,16 @@ public class LFStackTest {
   public void testEmptyStack_pop() {
     LFStack<Integer> stack = new LFStack<>();
     stack.pop();
+  }
+
+  @Test
+  public void testAddAndRemove() {
+    LFStack<String> stack = new LFStack<>();
+    assertTrue(stack.add("test1"));
+    assertTrue(stack.add("test2"));
+    assertEquals("test2", stack.remove());
+    assertEquals("test1", stack.remove());
+    assertNull(stack.remove());
   }
 
   @Test
