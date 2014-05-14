@@ -31,6 +31,12 @@ Benchmarking
 
     ./gradlew perf
 
+It's possible to pass custom arguments to JMH, for example:
+
+    ./gradlew perf -Pargs='com.github.kratorius.jefs.LFStackBenchmark.* -wi 3 -i 3'
+
+If no arguments are specified, JMH will execute all the benchmarks (which might take
+a while).
 
 License
 -------
