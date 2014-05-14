@@ -54,6 +54,10 @@ eclipse {
 
 task perf(type: JavaExec, dependsOn: [classes, perfClasses]) {
     description 'Execute the benchmark timing of this project'
+    maxHeapSize '2g'
     main 'org.openjdk.jmh.Main'
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+')
+    }
     classpath = sourceSets.perf.runtimeClasspath
 }
