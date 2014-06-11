@@ -2,7 +2,7 @@ package com.github.kratorius.jefs;
 
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.GenerateMicroBenchmark;
+import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Group;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Measurement;
@@ -31,7 +31,7 @@ public class SPSCQueueBenchmark {
   private int constValue = 123;
   private SPSCQueue<Integer> queue = new SPSCQueue<>(1024 * 1024 * 100);
 
-  @GenerateMicroBenchmark
+  @Benchmark
   @Group("queue")
   public void offer() {
     if (!queue.offer(constValue)) {
@@ -39,7 +39,7 @@ public class SPSCQueueBenchmark {
     }
   }
 
-  @GenerateMicroBenchmark
+  @Benchmark
   @Group("queue")
   public Integer poll() {
     Integer v = queue.poll();

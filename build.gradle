@@ -35,8 +35,8 @@ dependencies {
     testCompile 'junit:junit:4.11'
 
     perfCompile project
-    perfCompile 'org.openjdk.jmh:jmh-core:0.8'
-    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.8'
+    perfCompile 'org.openjdk.jmh:jmh-core:0.9'
+    perfCompile 'org.openjdk.jmh:jmh-generator-annprocess:0.9'
 }
 
 idea {

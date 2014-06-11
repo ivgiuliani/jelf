@@ -2,9 +2,8 @@ package com.github.kratorius.jefs;
 
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Fork;
-import org.openjdk.jmh.annotations.GenerateMicroBenchmark;
+import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Group;
-import org.openjdk.jmh.annotations.GroupThreads;
 import org.openjdk.jmh.annotations.Level;
 import org.openjdk.jmh.annotations.Measurement;
 import org.openjdk.jmh.annotations.Mode;
@@ -32,13 +31,13 @@ public class LFStackBenchmark {
   private int constValue = 123;
   private LFStack<Integer> stack = new LFStack<>();
 
-  @GenerateMicroBenchmark
+  @Benchmark
   @Group("stack")
   public void add() {
     stack.push(constValue);
   }
 
-  @GenerateMicroBenchmark
+  @Benchmark
   @Group("stack")
   public Integer remove() {
     Integer v = stack.remove();
