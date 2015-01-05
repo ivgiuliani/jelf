@@ -3,7 +3,7 @@ group = "com.github.kratorius.jelf"
 def javaVersion = JavaVersion.VERSION_1_7
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.10'
+    gradleVersion = '2.2.1'
 }
 
 apply plugin: 'idea'
