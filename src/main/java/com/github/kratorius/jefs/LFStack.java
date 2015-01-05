@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Represents a last-in-first-out (LIFO) unbounded stack of objects.
  * The usual {@code push} and {@code pop} operations are provided, as well as
  * a {@code peek} method to peek at the top of the stack.
+ * This is implemented using the Treiber's algorithm.
  *
  * @param <E> the type of elements held in this collection
  */
