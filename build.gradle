@@ -7,7 +7,6 @@ task wrapper(type: Wrapper) {
 }
 
 apply plugin: 'idea'
-apply plugin: 'eclipse'
 apply plugin: 'java'
 apply plugin: 'application'
 
@@ -43,12 +42,6 @@ dependencies {
 idea {
     module {
         scopes.PROVIDED.plus  += [ configurations.perfCompile ]
-    }
-}
-
-eclipse {
-    classpath {
-        plusConfigurations += configurations.perfCompile
     }
 }
 
