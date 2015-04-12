@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
  * "Lock free Algorithms for Ultimate Performance"
  * (http://www.infoq.com/presentations/Lock-Free-Algorithms)
  *
- * @param <T>
+ * @param <T>  type of objects that can be added to this queue.
  */
 public class SPSCQueue<T> implements Queue<T> {
   private final T[] buffer;
@@ -33,8 +33,10 @@ public class SPSCQueue<T> implements Queue<T> {
   private final AtomicLong tail = new PaddedAtomicLong(0);
 
   static class PaddedAtomicLong extends AtomicLong {
-    public volatile long p0 = 0L, p1 = 1L, p2 = 2L, p3 = 3L;
-    public volatile long p4 = 4L, p5 = 5L, p6 = 6L, p7 = 7L;
+    // Unused in practice, but here to provide padding so we get better cache alignment.
+    @SuppressWarnings("unused")
+    public volatile long p0 = 0L, p1 = 1L, p2 = 2L, p3 = 3L,
+                         p4 = 4L, p5 = 5L, p6 = 6L, p7 = 7L;
 
     PaddedAtomicLong(long initialValue) {
       super(initialValue);
