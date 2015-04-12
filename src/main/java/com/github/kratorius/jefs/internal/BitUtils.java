@@ -1,9 +1,9 @@
 package com.github.kratorius.jefs.internal;
 
 public class BitUtils {
-
   /**
-   * Returns the closes power of two for the given value
+   * Returns the closest power of two for the given value.
+   *
    * @param value original input value
    * @return the closest power of two for the given value
    */
@@ -12,10 +12,10 @@ public class BitUtils {
       throw new UnsupportedOperationException();
     }
 
-    // alternatively this works too but our implementation seems to be more
+    // Alternatively this works too but our implementation seems to be more
     // efficent in terms of CPU operations executed (numberOfLeadingZeros does
     // exactly this, plus other things). However, numberOfLeadingZeros will
-    // return '1' for value=0 which is arguably more correct.
+    // return '1' for value=0 which is arguably more correct:
     //
     // return 1 << (32 - Integer.numberOfLeadingZeros(value - 1));
 

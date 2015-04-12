@@ -55,9 +55,9 @@ public class SPSCQueue<T> implements Queue<T> {
     int actualSize = BitUtils.roundToNextPowerOfTwo(capacity);
     buffer = (T[]) new Object[actualSize];
 
-    // use a mask to access actual buffer items, this works because
+    // Use a mask to access actual buffer items, this works because
     // the buffer is always a power of 2 and using idx & mask is equivalent
-    // of length % idx but way more efficient, i.e: i % 2^k == i & (2^k - 1)
+    // of length % idx but way more efficient, i.e: `i % 2^k == i & (2^k - 1)`
     mask = actualSize - 1;
   }
 
