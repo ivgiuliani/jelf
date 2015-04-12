@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @param <E> the type of elements held in this collection
  */
-public class LFStack<E> extends NotSafe {
-  private static final Unsafe unsafe = getUnsafe();
+public class LFStack<E> {
+  private static final Unsafe unsafe = NotSafe.getUnsafe();
   private AtomicInteger itemCount = new AtomicInteger();
 
   @SuppressWarnings("UnusedDeclaration")

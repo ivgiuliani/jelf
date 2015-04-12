@@ -8,8 +8,8 @@ import sun.misc.Unsafe;
  * only allow a fixed number of bits and offer only those methods for which
  * we can support thread-safe operations.
  */
-public class LFBitSet extends NotSafe {
-  private static Unsafe unsafe = getUnsafe();
+public class LFBitSet {
+  private static Unsafe unsafe = NotSafe.getUnsafe();
   private static final int base = unsafe.arrayBaseOffset(long[].class);
   private static final int shift;
 
